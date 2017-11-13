@@ -12,20 +12,19 @@ with open(path_to_file) as f:
         # get array with letters a-z
         alphabet = list(string.ascii_lowercase)
         commonStructure = []
-        listLine = list(line)
-        dictio = {}
+        # list line and strip whitespace
+        listLine = list(line.strip('\n'))
+        dictionary = {}
         # rewrite the line mapping chars to a-z alphabetically. 
         # Check if key-value are already in dict, else add them.
         for i in listLine:
-            if i in dictio:
+            if i in dictionary:
                 commonStructure.append(dictio[i])
             else:
-                try:
-                    dictio[i] = alphabet[0]
-                    commonStructure.append(dictio[i]) 
-                    alphabet.pop(0)
-                except:
-                    pass
+                dictionary[i] = alphabet[0]
+                commonStructure.append(dictionary[i]) 
+                alphabet.pop(0)
+               
         # turn the new mapping into a string and add it to a dictionary
         joinedStructure = ''.join(commonStructure)
         results[joinedStructure] += 1
