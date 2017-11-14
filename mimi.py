@@ -40,7 +40,7 @@ def count_friends(dictionary):
     return friends
 
 with open(path_to_file('words.txt')) as f:
-    # defaultdict allows one to add key or sum value in one step
+    # defaultdict allows one to add key or increase value in one step
     results = defaultdict(int)
     for line in f:
         linePattern = get_common_pattern(line)
