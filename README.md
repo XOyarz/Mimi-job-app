@@ -1,5 +1,4 @@
 # Mimi-job-app
-Friendly Words Challenge
-Challenge found here: https://mimi.io/en/challenge/
+Friendly Words Challenge, found here: https://mimi.io/en/challenge/
 
-To run, download both files, set the correct path to words.txt and run.
+Download mimi.py to the same directory as words.txt and run!
