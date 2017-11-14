@@ -1,37 +1,49 @@
-import string
 from collections import defaultdict
+import string
 import os
-results = defaultdict(int)
-base_path = '/home/xavier/Desktop/'
-filename = 'words.txt'
-path_to_file = os.path.join(base_path, filename)
 
+# Get relative path to file
+def path_to_file(fileName):
+    base_path = os.path.dirname(__file__)
+    path_to_file = os.path.join(base_path, fileName)
+    return path_to_file
 
-with open(path_to_file) as f:
+def get_common_pattern(fileLine):
+    # Get an array with letters a-z
+    alphabet = list(string.ascii_lowercase)
+    commonPattern = []
+    listLine = list(fileLine.strip('\n'))
+    dictionary = {}
+    for i in listLine:
+        # If char i has already been mapped in the dictionary,
+        # append its value to the new commonPattern array
+        if i in dictionary:
+            commonPattern.append(dictionary[i])
+        # Else add the key-value mapping to the dictionary,
+        # append the value to the new array and delete 
+        # the value from the alphabet array
+        else:
+            dictionary[i] = alphabet[0]
+            commonPattern.append(dictionary[i]) 
+            del alphabet[0]
+    pattern = ''.join(commonPattern)
+    return pattern
+
+# Sum all values greater than one, because only
+# those share the same pattern with at least one
+# other word ("friendly words")
+def count_friends(dictionary):
+    friends = 0
+    for value in dictionary.values():
+        if value > 1:
+            friends += value
+    return friends
+
+with open(path_to_file('words.txt')) as f:
+    # defaultdict allows one to add key or sum value in one step
+    results = defaultdict(int)
     for line in f:
-        # get array with letters a-z
-        alphabet = list(string.ascii_lowercase)
-        commonStructure = []
-        # list line and strip whitespace
-        listLine = list(line.strip('\n'))
-        dictionary = {}
-        # rewrite the line mapping chars to a-z alphabetically. 
-        # Check if key-value are already in dict, else add them.
-        for i in listLine:
-            if i in dictionary:
-                commonStructure.append(dictio[i])
-            else:
-                dictionary[i] = alphabet[0]
-                commonStructure.append(dictionary[i]) 
-                alphabet.pop(0)
-               
-        # turn the new mapping into a string and add it to a dictionary
-        joinedStructure = ''.join(commonStructure)
-        results[joinedStructure] += 1
-
-friends = 0
-# Sum the keys which value > 1, the ones with a 'friend'
-for value in results.values():
-    if value > 1:
-        friends += value
-print(friends)       
+        linePattern = get_common_pattern(line)
+        # Add pattern to dictionary if not there, or increase value by 1
+        results[linePattern] += 1
+print(count_friends(results))
